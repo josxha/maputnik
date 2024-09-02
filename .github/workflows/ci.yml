@@ -123,12 +123,11 @@ jobs:
         with:
           node-version-file: '.nvmrc'
       - run: |
-          npm install && \
+          npm install
           npm run i18n:refresh
       - name: Check difference
         run: |
-          git add --all src/locales && \
-          git diff --exit-code src/locales || { && \
-            echo "Translation files changed"; && \
-            exit 1; && \
+          git diff --exit-code --quiet src/locales || {
+            echo "Translation files changed";
+            exit 1;
           }
