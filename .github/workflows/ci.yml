@@ -128,4 +128,7 @@ jobs:
       - name: Check difference
         run: |
           git add --all src/locales && \
-          git diff --exit-code src/locales
+          git diff --exit-code src/locales || { && \
+            echo "Translation files changed"; && \
+            exit 1; && \
+          }
