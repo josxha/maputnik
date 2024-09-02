@@ -111,3 +111,21 @@ jobs:
         with:
           files: ${{ github.workspace }}/.nyc_output/out.json
           verbose: true
+
+  check-l18n:
+    name: "Check missing translations"
+    runs-on: ubuntu-latest
+    if: ${{ github.event_name == 'push' || github.event_name == 'pull_request' }}
+
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: '.nvmrc'
+      - run: |
+          npm install && \
+          npm run i18n:refresh
+      - name: Check difference
+        run: |
+          git add --all src/locales && \
+          git diff --exit-code src/locales
